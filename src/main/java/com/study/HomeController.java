@@ -13,8 +13,10 @@ public class HomeController {
 
     @RequestMapping("/")
     public String home(Model model){
-        int dual = dao.dual();
-        model.addAttribute("dual",dual);
-        return "home";
+
+        return "index";
     }
+
+
+
 }

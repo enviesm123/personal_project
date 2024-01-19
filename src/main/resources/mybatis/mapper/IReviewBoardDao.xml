@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.board.dao.IReviewBoardDao">
+    <select id="getBoardList" resultType="com.study.board.vo.ReviewBoardVO">
+        SELECT RE_BO_NO,            RE_BO_TITLE,         RE_BO_CATEGORY,
+               RE_BO_WRITER,        RE_BO_PASS,          RE_BO_CONTENT,
+               RE_BO_RECOMMEND,     RE_BO_HIT,
+               to_char(re_bo_reg_date, 'YYYY-MM-DD') AS re_BO_REG_DATE ,
+               to_char(re_BO_MOD_DATE, 'YYYY-MM-DD') AS re_BO_MOD_DATE ,
+               RE_BO_DEL_YN
+        FROM
+                review_Board
+        WHERE	 	1=1
+        AND	 re_bo_del_yn = 'N'
+        ORDER BY re_bo_no DESC
+    </select>
+    <select id="getBoardView" resultType="com.study.board.vo.ReviewBoardVO" parameterType="int">
+        SELECT RE_BO_NO,            RE_BO_TITLE,         RE_BO_CATEGORY,
+               RE_BO_WRITER,        RE_BO_PASS,          RE_BO_CONTENT,
+               RE_BO_RECOMMEND,     RE_BO_HIT,
+               to_char(re_bo_reg_date, 'YYYY-MM-DD') AS re_BO_REG_DATE ,
+               to_char(re_BO_MOD_DATE, 'YYYY-MM-DD') AS re_BO_MOD_DATE ,
+               RE_BO_DEL_YN
+        FROM
+            review_Board
+        WHERE	 	1=1
+         AND re_bo_no = #{reBoNo}
+    </select>
+</mapper>

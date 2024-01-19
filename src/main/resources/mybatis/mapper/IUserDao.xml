@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.userinfo.dao.IUserDao">
+    <select id="getUserList" resultType="com.study.userinfo.vo.UserInfoVO">
+        SELECT
+            USER_ID, USER_PASS, USER_NAME,
+            USER_ZIP, USER_ADD1, USER_ADD2,
+            USER_HP, USER_MAIL, USER_DEL_YN,
+            USER_GRANT
+        FROM 	USERINFO
+        ORDER BY user_id DESC
+    </select>
+    <select id="getUser" resultType="com.study.userinfo.vo.UserInfoVO" parameterType="String">
+        SELECT
+            USER_ID, USER_PASS, USER_NAME,
+            USER_ZIP, USER_ADD1, USER_ADD2,
+            USER_HP, USER_MAIL, USER_DEL_YN,
+            USER_GRANT
+        FROM 	USERINFO
+        WHERE user_id = #{userId}
+        ORDER BY user_id DESC
+    </select>
+    <insert id="registUser">
+        INSERT INTO USERINFO
+            (
+             USER_ID,            USER_PASS,                 USER_NAME,
+             USER_ZIP,           USER_ADD1,                 USER_ADD2,
+             USER_HP,            USER_MAIL
+
+             )VALUES(
+               #{userId},       #{userPass},                #{userName},
+               #{userZip},       #{userAdd1},                #{userAdd2},
+               #{userHp},         #{userMail}
+              )
+    </insert>
+
+</mapper>
