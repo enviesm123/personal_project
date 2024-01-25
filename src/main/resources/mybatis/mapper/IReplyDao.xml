@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.reply.dao.IReplyDao">
+    <select id="getReplyListByParent" resultType="com.study.reply.vo.ReplyVO">
+        SELECT
+            RE_NO           , RE_CATEGORY           , RE_PARENT_NO  ,
+            RE_MEM_ID       , RE_CONTENT            , RE_IP         ,
+            RE_REG_DATE     , RE_MOD_DATE           ,
+            b.MEM_NAME AS re_user_name
+        FROM
+            REPLY a, userinfo b
+        WHERE a.re_mem_id = b.user_id
+          AND re_parent_no = #{reParentNo}
+          AND re_category = #{reCategory}
+        ORDER BY re_no DESC
+    </select>
+</mapper>

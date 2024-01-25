@@ -1,7 +1,10 @@
 package com.study.board.vo;
 
+import com.study.attach.vo.AttachVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.List;
 
 public class ReviewBoardVO {
     private int reBoNo;                     /* 글 번호 */
@@ -15,6 +18,17 @@ public class ReviewBoardVO {
     private String reBoRegDate;             /* 등록 날짜 */
     private String reBoModDate;             /* 수정 날짜 */
     private String reBoDelYn;               /* 글삭제 여부 */
+    private List<AttachVO> attaches;
+
+
+    public List<AttachVO> getAttaches() {
+        return attaches;
+    }
+
+    public void setAttaches(List<AttachVO> attaches) {
+        this.attaches = attaches;
+    }
+
 
 
     @Override

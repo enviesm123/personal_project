@@ -11,4 +11,12 @@ public interface IUserService {
 
     public UserInfoVO getUser(String userId);
     public void registUser(UserInfoVO user);
+
+    public int idChk(UserInfoVO user);
+
+    public int mailChk(UserInfoVO user);
+
+    public void modifyUser(UserInfoVO user);
+
+    public void deleteUser(UserInfoVO user);
 }

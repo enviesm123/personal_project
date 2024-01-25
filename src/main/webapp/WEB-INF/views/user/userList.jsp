@@ -36,7 +36,7 @@
         <!-- 회원 데이터 예시 -->
             <c:forEach items="${userList}" var="user">
         <tr>
-            <th scope="row">${user.userId}</th>
+            <th scope="row"><a href="/user/userView.wow?userId=${user.userId}">${user.userId}</a></th>
             <td>${user.userName}</td>
             <td>${user.userMail}</td>
             <td>${user.userHp}</td>

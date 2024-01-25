@@ -29,5 +29,31 @@ public class UserServiceImpl implements IUserService{
     public void registUser(UserInfoVO user) {
 
         userDao.registUser(user);
+
+
+    }
+
+
+
+    @Override
+    public int idChk(UserInfoVO user) {
+        int result = userDao.idChk(user);
+        return result;
+    }
+
+    @Override
+    public int mailChk(UserInfoVO user) {
+        int result = userDao.mailChk(user);
+        return result;
+    }
+
+    @Override
+    public void modifyUser(UserInfoVO user) {
+        userDao.modifyUser(user);
+    }
+
+    @Override
+    public void deleteUser(UserInfoVO user) {
+        userDao.deleteUser(user);
     }
 }

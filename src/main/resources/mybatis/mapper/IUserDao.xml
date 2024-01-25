@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.userinfo.dao.IUserDao">
+    <delete id="deleteUser">
+        UPDATE userinfo
+            SET user_del_yn = 'Y'
+        WHERE user_id = #{userId}
+    </delete>
+
     <select id="getUserList" resultType="com.study.userinfo.vo.UserInfoVO">
         SELECT
             USER_ID, USER_PASS, USER_NAME,
@@ -20,18 +26,37 @@
         WHERE user_id = #{userId}
         ORDER BY user_id DESC
     </select>
+    <select id="idChk" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM userinfo
+        WHERE USER_ID = #{userId}
+    </select>
+    <select id="mailChk" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM userinfo
+        WHERE USER_MAIL = #{userMail}
+    </select>
+
+    <update id="modifyUser">
+        UPDATE USERINFO
+        SET
+            USER_PASS=#{userPass}, USER_NAME=#{userName}, USER_ZIP=#{userZip},
+            USER_ADD1=#{userAdd1}, USER_ADD2=#{userAdd2}, USER_HP=#{userHp},
+            USER_MAIL=#{userMail}, USER_DEL_YN='N', USER_GRANT=#{userGrant}
+
+        WHERE USER_ID=#{userId}
+    </update>
     <insert id="registUser">
         INSERT INTO USERINFO
-            (
-             USER_ID,            USER_PASS,                 USER_NAME,
-             USER_ZIP,           USER_ADD1,                 USER_ADD2,
-             USER_HP,            USER_MAIL
-
-             )VALUES(
-               #{userId},       #{userPass},                #{userName},
-               #{userZip},       #{userAdd1},                #{userAdd2},
-               #{userHp},         #{userMail}
-              )
+        (
+            USER_ID,            USER_PASS,                 USER_NAME,
+            USER_ZIP,           USER_ADD1,                 USER_ADD2,
+            USER_HP,            USER_MAIL,                 user_del_yn,
+            user_Grant
+        )VALUES(
+                   #{userId},       #{userPass},                #{userName},
+                   #{userZip},       #{userAdd1},                #{userAdd2},
+                   #{userHp},         #{userMail},               'N',
+                    'USER'
+               )
     </insert>
 
 </mapper>

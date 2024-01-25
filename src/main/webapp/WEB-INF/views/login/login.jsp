@@ -1,3 +1,4 @@
+<%@ page import="java.net.URLEncoder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -19,6 +20,8 @@
             height: 100vh;
             margin: 0;
         }
+
+
     </style>
 </head>
 <body>
@@ -36,6 +39,7 @@
         <div id="inputBox">
             <div class="input-form-box"><span>아이디 </span><input type="text" name="userId" class="form-control"></div>
             <div class="input-form-box"><span>비밀번호 </span><input type="password" name="userPass" class="form-control"></div>
+            <div><label><input type="checkbox" name="rememberMe" value="Y" >ID 기억하기</label></div>
             <div class="button-login-box" >
 
                 <button type="submit" class="btn btn-primary btn-xs" style="width:100%">로그인</button>
@@ -44,6 +48,7 @@
                     회원가입
                 </button>
             </div>
+                <p style="color: red;">${msg}</p>
         </div>
 
     </form>

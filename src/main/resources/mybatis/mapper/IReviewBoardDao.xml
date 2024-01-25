@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.board.dao.IReviewBoardDao">
+
+
     <select id="getBoardList" resultType="com.study.board.vo.ReviewBoardVO">
         SELECT RE_BO_NO,            RE_BO_TITLE,         RE_BO_CATEGORY,
                RE_BO_WRITER,        RE_BO_PASS,          RE_BO_CONTENT,
@@ -26,4 +28,32 @@
         WHERE	 	1=1
          AND re_bo_no = #{reBoNo}
     </select>
+    <insert id="registBoard" parameterType="com.study.board.vo.ReviewBoardVO" >
+-- //selectKey를 이용해서 ReviewBoardVO의 boNo를 세팅해야됩니다.
+        <selectKey order="BEFORE" keyProperty="reBoNo" resultType="int">
+            SELECT seq_review_board.nextval FROM dual
+        </selectKey>
+        INSERT INTO REVIEW_BOARD
+        (
+            RE_BO_NO, RE_BO_TITLE, RE_BO_CATEGORY,
+            RE_BO_WRITER, RE_BO_PASS, RE_BO_CONTENT
+        )VALUES(
+                    #{reBoNo}, #{reBoTitle}, #{reBoCategory},
+                   #{reBoWriter}, #{reBoPass}, #{reBoContent}
+               )
+    </insert>
+
+    <update id="modifyBoard" parameterType="com.study.board.vo.ReviewBoardVO">
+        UPDATE review_board SET
+                              re_bo_title = #{reBoTitle}	 	        ,
+                              re_bo_category = #{reBoCategory}	 	,
+                              re_bo_content = #{reBoContent}	 	    ,
+                              re_bo_mod_date = sysdate
+        WHERE re_bo_no = #{reBoNo}
+    </update>
+    <update id="boardDelete" parameterType="com.study.board.vo.ReviewBoardVO">
+        UPDATE review_board SET
+            re_bo_del_yn = 'Y'
+        WHERE re_bo_no = #{reBoNo}
+    </update>
 </mapper>

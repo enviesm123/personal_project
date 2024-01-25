@@ -12,4 +12,10 @@ public interface IReviewBoardDao {
     List<ReviewBoardVO> getBoardList();
 
     ReviewBoardVO getBoardView(int reBoNo);
+
+    int registBoard(ReviewBoardVO review);
+
+    int modifyBoard(ReviewBoardVO review);
+
+    int boardDelete(ReviewBoardVO review);
 }

@@ -9,9 +9,18 @@ import java.util.List;
 @Mapper
 public interface IUserDao {
 
+
+    public List<UserInfoVO> getUserList();
+
+    public UserInfoVO getUser(String userId);
+
     public int registUser(UserInfoVO user);
 
-    List<UserInfoVO> getUserList();
+    public int idChk(UserInfoVO user);
 
-    UserInfoVO getUser(String userId);
+    public int mailChk(UserInfoVO user);
+
+    public int modifyUser(UserInfoVO user);
+
+    public int deleteUser(UserInfoVO user);
 }
