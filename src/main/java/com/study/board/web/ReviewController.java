@@ -4,7 +4,11 @@ import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.study.attach.service.IAttachService;
 import com.study.attach.vo.AttachVO;
 import com.study.board.service.IBoardService;
+import com.study.board.vo.ReviewBoardSearchVO;
 import com.study.board.vo.ReviewBoardVO;
+import com.study.code.ParentCode;
+import com.study.code.service.ICodeSevice;
+import com.study.code.vo.CodeVO;
 import com.study.common.util.StudyAttachUtils;
 import com.study.common.vo.PagingVO;
 import com.study.common.vo.ResultMessageVO;
@@ -30,11 +34,16 @@ public class ReviewController {
     IBoardService boardService;
     @Inject
     IAttachService attachService;
+    @Inject
+    ICodeSevice codeSevice;
 
 
     @RequestMapping("/review/reviewList.wow")
-    public String reviewList(Model model, @ModelAttribute("paging")PagingVO paging) throws BizNotFoundException {
-        List<ReviewBoardVO> reviewList = boardService.getBoardList(paging);
+    public String reviewList(Model model, @ModelAttribute("paging")PagingVO paging
+    ,@ModelAttribute("search") ReviewBoardSearchVO search) throws BizNotFoundException {
+        List<ReviewBoardVO> reviewList = boardService.getBoardList(paging, search);
+        List<CodeVO> cateList = codeSevice.getCodeListByParent(ParentCode.BC00.name());
+        model.addAttribute("cateList", cateList);
 
         for (int i = 0; i < reviewList.size(); i++) {
         List<AttachVO> attaches = attachService.getAttaches(reviewList.get(i).getReBoNo());
@@ -55,6 +64,7 @@ public class ReviewController {
     public String reviewView(Model model, int reBoNo) throws BizNotFoundException {
         List<AttachVO> attaches = attachService.getAttaches(reBoNo);
         ReviewBoardVO boardView = boardService.getBoardView(reBoNo);
+
 
         boardView.setAttaches(attaches);
         model.addAttribute("boardView",boardView);

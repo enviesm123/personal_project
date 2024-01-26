@@ -29,11 +29,12 @@
             </li>
             <c:if test="${USER_INFO eq null}">
                 <li><a class="nav-link scrollto" href="/login/login.wow">Login</a></li>
+                <li><a class="nav-link scrollto " href="/user/userForm.wow">회원가입</a></li>
             </c:if>
-            <li><a class="nav-link scrollto " href="/user/userForm.wow">회원가입</a></li>
             <c:if test="${USER_INFO != null}">
 
-                <li class="dropdown"><a href="#"><span>${USER_INFO.userName} 님</span> <i class="bi bi-chevron-right"></i></a>
+                <li class="dropdown"><a href="#"><span>${USER_INFO.userName} 님</span> <i
+                        class="bi bi-chevron-right"></i></a>
                     <ul>
                         <li><a href="/user/userView.wow">내정보</a></li>
                         <li><a href="/login/logout.wow">로그아웃</a></li>

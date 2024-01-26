@@ -3,6 +3,7 @@ package com.study.board.service;
 import com.study.attach.dao.IAttachDao;
 import com.study.attach.vo.AttachVO;
 import com.study.board.dao.IReviewBoardDao;
+import com.study.board.vo.ReviewBoardSearchVO;
 import com.study.board.vo.ReviewBoardVO;
 import com.study.common.vo.PagingVO;
 import com.study.exception.BizPasswordNotMatchedException;
@@ -22,16 +23,17 @@ public class ReviewBoardImpl implements IBoardService{
 
 
     @Override
-    public List<ReviewBoardVO> getBoardList(PagingVO paging) {
+    public List<ReviewBoardVO> getBoardList(PagingVO paging, ReviewBoardSearchVO search) {
 
-        int totalRowCount = reviewBoardDao.getTotalRowCount(paging);
+        int totalRowCount = reviewBoardDao.getTotalRowCount(paging, search);
         paging.setTotalRowCount(totalRowCount);   //pagingCount로 세팅하면 콱
         paging.pageSetting();
-        return reviewBoardDao.getBoardList(paging);
+        return reviewBoardDao.getBoardList(paging, search);
     }
 
     @Override
     public ReviewBoardVO getBoardView(int reBoNo) {
+        reviewBoardDao.increaseBoHit(reBoNo);
         return reviewBoardDao.getBoardView(reBoNo);
     }
 
@@ -39,6 +41,7 @@ public class ReviewBoardImpl implements IBoardService{
     public void registBoard(ReviewBoardVO review) {
         // 현재 넘어온 review 객체의 rebono는 0
         reviewBoardDao.registBoard(review);
+
         // DB 등록은 시퀀스로 자동으로 등록되지만 다시 여기서는 0
         // 그래서 rebono를 셋팅 해주야된다 (셀렉트 키로)
 
@@ -77,5 +80,7 @@ public class ReviewBoardImpl implements IBoardService{
             throw new BizPasswordNotMatchedException("비밀번호 틀림. 사용자가 아님");
         }
     }
+
+
 
 }

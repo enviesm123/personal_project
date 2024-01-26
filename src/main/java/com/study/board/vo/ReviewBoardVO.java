@@ -18,8 +18,16 @@ public class ReviewBoardVO {
     private String reBoRegDate;             /* 등록 날짜 */
     private String reBoModDate;             /* 수정 날짜 */
     private String reBoDelYn;               /* 글삭제 여부 */
+    private  String reboCategoryNm;           /*글분류 이름 ,get/set만들어라 */
     private List<AttachVO> attaches;
 
+    public String getReboCategoryNm() {
+        return reboCategoryNm;
+    }
+
+    public void setReboCategoryNm(String reboCategoryNm) {
+        this.reboCategoryNm = reboCategoryNm;
+    }
 
     public List<AttachVO> getAttaches() {
         return attaches;

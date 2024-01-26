@@ -27,6 +27,17 @@
             border-color: #337ab7; /* 테두리 색상을 원하는 색상으로 지정 */
         }
 
+        .card:hover {
+            transform: scale(1.05); /* 확대 효과 */
+            transition: transform 0.3s ease; /* 부드러운 애니메이션 효과 */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+        }
+        .searchBar{
+            display: flex;
+            justify-content: space-around;
+            /*width: 30%;*/
+        }
+
     </style>
 </head>
 <body>
@@ -75,7 +86,18 @@ ${paging}
 
 
             </div>
-
+            <div class="searchBar">
+            <form action="reviewList.wow" method="post">
+                    <select id="id_searchType" name="searchType" class="form-control input-sm">
+                        <option value="T" ${search.searchType eq "T" ? "selected = 'selected'" : ""} >제목</option>
+                        <option value="W" ${search.searchType eq "W" ? "selected = 'selected'" : ""}>작성자</option>
+                        <option value="C" ${search.searchType eq "C" ? "selected = 'selected'" : ""}>내용</option>
+                    </select>
+                <label for="searchKeyword" >검색어:</label>
+                <input type="text" id="searchKeyword"  name="searchWord" value="${search.searchWord}" placeholder="검색어를 입력하세요">
+                <button type="submit">검색</button>
+            </form>
+            </div>
             <!-- START : 페이지네이션  -->
             <nav class="text-center">
                 <ul class="pagination">
@@ -114,4 +136,15 @@ ${paging}
     </div>
 
 </body>
+<script>
+    // 페이지 로드 시 아래로 스크롤
+    window.onload = function() {
+        scrollToBottom();
+    };
+
+    // 스크롤을 제일 아래로 이동하는 함수
+    function scrollToBottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+</script>
 </html>

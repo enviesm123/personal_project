@@ -7,6 +7,11 @@
         SELECT count(*)
         FROM review_board
         WHERE re_bo_del_yn ='N'
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.searchWord)">
+            <if test='search.searchType == "T"'>AND re_bo_title LIKE '%' || #{search.searchWord} || '%'</if>
+            <if test='search.searchType == "W"'>AND re_bo_writer LIKE '%' || #{search.searchWord} || '%'</if>
+            <if test='search.searchType == "C"'>AND re_bo_content LIKE '%' || #{search.searchWord} || '%'</if>
+        </if>
     </select>
 
     <select id="getBoardList" resultType="com.study.board.vo.ReviewBoardVO">
@@ -17,11 +22,18 @@
                RE_BO_RECOMMEND,     RE_BO_HIT,
                to_char(re_bo_reg_date, 'YYYY-MM-DD') AS re_BO_REG_DATE ,
                to_char(re_BO_MOD_DATE, 'YYYY-MM-DD') AS re_BO_MOD_DATE ,
-               RE_BO_DEL_YN
+               RE_BO_DEL_YN,
+               b.type_nm as re_bo_category_nm
         FROM
-                review_Board
+                review_Board a , type_code b
         WHERE	 	1=1
         AND	 re_bo_del_yn = 'N'
+        AND a.re_bo_category = b.type_cd
+        <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.searchWord)">
+            <if test='search.searchType == "T"'>AND re_bo_title LIKE '%' || #{search.searchWord} || '%'</if>
+            <if test='search.searchType == "W"'>AND re_bo_writer LIKE '%' || #{search.searchWord} || '%'</if>
+            <if test='search.searchType == "C"'>AND re_bo_content LIKE '%' || #{search.searchWord} || '%'</if>
+        </if>
         ORDER BY re_bo_no DESC) a ) b
         WHERE rnum BETWEEN  #{paging.firstRow} AND #{paging.lastRow}
     </select>
@@ -64,6 +76,11 @@
     <update id="boardDelete" parameterType="com.study.board.vo.ReviewBoardVO">
         UPDATE review_board SET
             re_bo_del_yn = 'Y'
+        WHERE re_bo_no = #{reBoNo}
+    </update>
+    <update id="increaseBoHit">
+        UPDATE review_board
+        SET re_bo_hit = re_bo_hit + 1
         WHERE re_bo_no = #{reBoNo}
     </update>
 </mapper>

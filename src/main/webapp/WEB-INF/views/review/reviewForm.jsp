@@ -94,20 +94,17 @@
     });
 
     function fileCheck(obj) {
-        pathpoint = obj.value.lastIndexOf(',')
+        console.log(obj);
+        console.log(obj.value);
+        pathpoint = obj.value.lastIndexOf('.')
         filepoint = obj.value.substring(pathpoint+1, obj.length)
         filetype = filepoint.toLowerCase()
         if(filetype == 'jpg' || filetype == 'gif' || filetype == 'png' || filetype == 'jpeg'){
 
         }else {
             alert("이미지 파일만 선택할 수 있습니다.")
-            parentObj = obj.parentNode
-            newNode = obj.cloneNode(true);
-            console.log(newNode)
-            node = parentObj.replaceChild(newNode, obj);
-            console.log("노드", node)
             obj.value = "";
-            return false
+            return false;
         }
     }
 </script>
