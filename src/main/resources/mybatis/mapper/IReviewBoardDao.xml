@@ -3,7 +3,15 @@
 <mapper namespace="com.study.board.dao.IReviewBoardDao">
 
 
+    <select id="getTotalRowCount" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM review_board
+        WHERE re_bo_del_yn ='N'
+    </select>
+
     <select id="getBoardList" resultType="com.study.board.vo.ReviewBoardVO">
+        SELECT * FROM (
+                          SELECT a.*, rowNum AS rnum from(
         SELECT RE_BO_NO,            RE_BO_TITLE,         RE_BO_CATEGORY,
                RE_BO_WRITER,        RE_BO_PASS,          RE_BO_CONTENT,
                RE_BO_RECOMMEND,     RE_BO_HIT,
@@ -14,7 +22,8 @@
                 review_Board
         WHERE	 	1=1
         AND	 re_bo_del_yn = 'N'
-        ORDER BY re_bo_no DESC
+        ORDER BY re_bo_no DESC) a ) b
+        WHERE rnum BETWEEN  #{paging.firstRow} AND #{paging.lastRow}
     </select>
     <select id="getBoardView" resultType="com.study.board.vo.ReviewBoardVO" parameterType="int">
         SELECT RE_BO_NO,            RE_BO_TITLE,         RE_BO_CATEGORY,
@@ -28,6 +37,7 @@
         WHERE	 	1=1
          AND re_bo_no = #{reBoNo}
     </select>
+
     <insert id="registBoard" parameterType="com.study.board.vo.ReviewBoardVO" >
 -- //selectKey를 이용해서 ReviewBoardVO의 boNo를 세팅해야됩니다.
         <selectKey order="BEFORE" keyProperty="reBoNo" resultType="int">

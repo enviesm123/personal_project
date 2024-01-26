@@ -1,4 +1,3 @@
-
 package com.study.reply.vo;
 import java.io.Serializable;
 
@@ -15,20 +14,12 @@ public class ReplyVO {
     private String reModDate; /* 댓글 수정일자 */
     private String reUserName; //이름
     // toString() 구현
+
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
-
-    public String getReUserName() {
-        return reUserName;
-    }
-
-    public void setReUserName(String reUserName) {
-        this.reUserName = reUserName;
-    }
-//get/set
-
 
     public int getReNo() {
         return reNo;
@@ -94,7 +85,11 @@ public class ReplyVO {
         this.reModDate = reModDate;
     }
 
+    public String getReUserName() {
+        return reUserName;
+    }
 
-
-
+    public void setReUserName(String reUserName) {
+        this.reUserName = reUserName;
+    }
 }

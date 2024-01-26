@@ -1,17 +1,51 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.study.reply.dao.IReplyDao">
-    <select id="getReplyListByParent" resultType="com.study.reply.vo.ReplyVO">
+
+    <select id="getReplyListByParentNo" resultType="com.study.reply.vo.ReplyVO" >
+        SELECT * FROM (
+                          SELECT a.*, rowNum AS rnum from(
         SELECT
             RE_NO           , RE_CATEGORY           , RE_PARENT_NO  ,
             RE_MEM_ID       , RE_CONTENT            , RE_IP         ,
-            RE_REG_DATE     , RE_MOD_DATE           ,
-            b.MEM_NAME AS re_user_name
+            to_char(RE_REG_DATE, 'MM-DD hh:mm')  AS re_reg_date   , RE_MOD_DATE           ,
+            b.USER_NAME  AS re_user_name
         FROM
             REPLY a, userinfo b
         WHERE a.re_mem_id = b.user_id
           AND re_parent_no = #{reParentNo}
           AND re_category = #{reCategory}
-        ORDER BY re_no DESC
+        ORDER BY re_no DESC) a ) b
+        WHERE rnum BETWEEN  #{paging.firstRow} AND #{paging.lastRow}
     </select>
+    <select id="getReplyCountByParent" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM reply
+        WHERE re_parent_no = #{reParentNo}
+          AND re_category = #{reCategory}
+    </select>
+
+    <insert id="insertReply" parameterType="com.study.reply.vo.ReplyVO">
+        INSERT INTO REPLY
+        (
+            RE_NO, RE_CATEGORY, RE_PARENT_NO,
+            RE_MEM_ID, RE_CONTENT, RE_IP,
+            RE_REG_DATE, RE_MOD_DATE
+        )VALUES(
+                   seq_reply.nextval, #{reCategory}, #{reParentNo},
+                   #{reMemId}, #{reContent}, #{reIp},
+                   SYSDATE, null
+               )
+    </insert>
+    <update id="modifyReply" parameterType="com.study.reply.vo.ReplyVO">
+        UPDATE REPLY
+        SET RE_CONTENT = #{reContent}
+        WHERE re_no = #{reNo}
+    </update>
+
+    <delete id="deleteReply" parameterType="com.study.reply.vo.ReplyVO">
+        DELETE FROM REPLY
+        WHERE RE_NO = #{reNo}
+        AND re_mem_id = #{reMemId}
+    </delete>
 </mapper>

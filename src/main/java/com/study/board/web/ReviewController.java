@@ -6,6 +6,7 @@ import com.study.attach.vo.AttachVO;
 import com.study.board.service.IBoardService;
 import com.study.board.vo.ReviewBoardVO;
 import com.study.common.util.StudyAttachUtils;
+import com.study.common.vo.PagingVO;
 import com.study.common.vo.ResultMessageVO;
 import com.study.exception.BizNotFoundException;
 import com.study.exception.BizPasswordNotMatchedException;
@@ -32,8 +33,8 @@ public class ReviewController {
 
 
     @RequestMapping("/review/reviewList.wow")
-    public String reviewList(Model model) throws BizNotFoundException {
-        List<ReviewBoardVO> reviewList = boardService.getBoardList();
+    public String reviewList(Model model, @ModelAttribute("paging")PagingVO paging) throws BizNotFoundException {
+        List<ReviewBoardVO> reviewList = boardService.getBoardList(paging);
 
         for (int i = 0; i < reviewList.size(); i++) {
         List<AttachVO> attaches = attachService.getAttaches(reviewList.get(i).getReBoNo());

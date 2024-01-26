@@ -4,6 +4,7 @@ import com.study.attach.dao.IAttachDao;
 import com.study.attach.vo.AttachVO;
 import com.study.board.dao.IReviewBoardDao;
 import com.study.board.vo.ReviewBoardVO;
+import com.study.common.vo.PagingVO;
 import com.study.exception.BizPasswordNotMatchedException;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,12 @@ public class ReviewBoardImpl implements IBoardService{
 
 
     @Override
-    public List<ReviewBoardVO> getBoardList() {
-        return reviewBoardDao.getBoardList();
+    public List<ReviewBoardVO> getBoardList(PagingVO paging) {
+
+        int totalRowCount = reviewBoardDao.getTotalRowCount(paging);
+        paging.setTotalRowCount(totalRowCount);   //pagingCount로 세팅하면 콱
+        paging.pageSetting();
+        return reviewBoardDao.getBoardList(paging);
     }
 
     @Override
