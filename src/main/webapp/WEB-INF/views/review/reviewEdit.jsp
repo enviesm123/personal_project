@@ -11,10 +11,20 @@
         .navbar a {
             color: #0f5132;
         }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
+<header>
+    <h1>Photo & Hiking</h1>
+    <h1>등산후기 게시판</h1>
+</header>
 <div class="container mt-5">
     <form action="reviewModify.wow"  method="post" enctype="multipart/form-data">
         <div class="row justify-content-center">

@@ -14,12 +14,12 @@
     <nav id="navbar" class="navbar">
         <ul>
             <li><a class="nav-link scrollto" href="/">Home</a></li>
-            <li><a class="nav-link scrollto" href="#about">About</a></li>
+            <li><a class="nav-link scrollto" href="#about"></a></li>
             <li><a class="nav-link scrollto" href="#resume">Resume</a></li>
-            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+            <li><a class="nav-link scrollto" href="/api/weather.wow">날씨</a></li>
             <li class="dropdown"><a href="#"><span>게시판</span> <i class="bi bi-chevron-down"></i></a>
                 <ul>
-                    <li><a href="#">Drop Down 1</a></li>
+                    <li><a href="/notice/noticeList.wow">공지사항</a></li>
                     <li class="dropdown"><a href="/review/reviewList.wow"><span>후기게시판</span></a>
                     </li>
                     <li><a href="#">Drop Down 2</a></li>

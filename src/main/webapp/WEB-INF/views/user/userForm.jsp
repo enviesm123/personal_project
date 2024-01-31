@@ -12,6 +12,7 @@
         .navbar a {
             color: #0f5132;
         }
+
         body {
             display: flex;
             align-items: center;
@@ -19,11 +20,12 @@
             height: 100vh;
             margin: 0;
         }
-        #container{
+
+        #container {
             width: 20%;
         }
 
-        .input-form-box{
+        .input-form-box {
             margin-top: 5px;
         }
     </style>
@@ -38,24 +40,33 @@
         <div id="loginBoxTitle"><h3>회 원 가 입</h3></div>
         <!-- 아이디, 비번, 버튼 박스 -->
         <div id="inputBox">
-            <div class="input-form-box"><input type="text" name="userId" class="form-control" placeholder="아이디">
-            <button class="btn btn-info" type="button" id="idcheck" onclick="fn_idChk()">아이디 중복체크</button>
+            <div class="input-form-box"><input type="text" onkeyup="fn_idChk()" name="userId" class="form-control"
+                                               placeholder="아이디">
+                <%--            <button class="btn btn-info" type="button" id="idcheck">아이디 중복체크</button>--%>
             </div>
-            <div class="input-form-box"><input type="password"  name="userPass" class="form-control" placeholder="비밀번호"></div>
+            <span style="color: darkgreen" id="usernameMessage-S"></span>
+            <span style="color: red" id="usernameMessage-F"></span>
+            <div class="input-form-box"><input type="password" name="userPass" class="form-control" placeholder="비밀번호">
+            </div>
             <div class="input-form-box"><input type="text" name="userName" class="form-control" placeholder="회원명"></div>
 
-            <div class="input-form-box"><input id="zipcode" type="text" name="userZip" class="form-control" placeholder="우편번호" readonly></div>
+            <div class="input-form-box"><input id="zipcode" type="text" name="userZip" class="form-control"
+                                               placeholder="우편번호" readonly></div>
             <input type="button" onclick="findAddress()" value="우편번호 찾기">
-            <div class="input-form-box"><input id="address" type="text" name="userAdd1" class="form-control" placeholder="주소" readonly></div>
-<%--            <div class="input-form-box"><input id="address_sub" type="text" name="uid" class="form-control" placeholder="참고항목"></div>--%>
-            <div class="input-form-box"><input id="adress2" type="text" name="userAdd2" class="form-control" placeholder="상세주소"></div>
+            <div class="input-form-box"><input id="address" type="text" name="userAdd1" class="form-control"
+                                               placeholder="주소" readonly></div>
+            <%--            <div class="input-form-box"><input id="address_sub" type="text" name="uid" class="form-control" placeholder="참고항목"></div>--%>
+            <div class="input-form-box"><input id="adress2" type="text" name="userAdd2" class="form-control"
+                                               placeholder="상세주소"></div>
             <div class="input-form-box"><input type="text" name="userHp" class="form-control" placeholder="핸드폰번호"></div>
-            <div class="input-form-box"><input type="text" name="userMail" class="form-control" placeholder="이메일"></div>
-            <button class="btn btn-info" type="button" onclick="fn_mailChk()" id="emailCheck">이메일 중복체크</button>
-            <p style="color: red;">${idError}</p>
-            <p style="color: red;">${mailError}</p>
-            <div class="button-login-box" >
-                <button type="submit" id="signUp" class="btn btn-primary btn-xs" style="width:100%; margin-bottom: 5px; margin-top: 10px">
+            <div class="input-form-box"><input onkeyup="fn_mailChk()" type="text" name="userMail" class="form-control"
+                                               placeholder="이메일"></div>
+            <%--            <button class="btn btn-info" type="button"  id="emailCheck">이메일 중복체크</button>--%>
+            <span style="color: darkgreen" id="userMailMessage-S"></span>
+            <span style="color: red" id="userMailMessage-F"></span>
+            <div class="button-login-box">
+                <button type="submit" id="signUp" class="btn btn-primary btn-xs"
+                        style="width:100%; margin-bottom: 5px; margin-top: 10px">
                     회원가입
                 </button>
                 <a href="/login/login.wow">아이디가 이미 있다면? 로그인하러 가기</a>
@@ -71,7 +82,10 @@
     let isidDuple = false
     let ismailDuple = false
 
-    function fn_idChk(){
+    function fn_idChk() {
+        $("#usernameMessage-F").text("");
+        $("#usernameMessage-S").text("");
+        // e.preventDefault()
         // 아이디 중복체크로직
         // 이벤트 전송을 막기
         // 현재 인풋창에 입력한 아이디 얻기
@@ -79,47 +93,53 @@
         // 아이디가 입력이 되었을때
         // ajax 통신으로 아이디 중복 체크를 진행
         let currentId = $("input[name='userId']").val();
-        console.log(currentId)
-        $.ajax({
-            url : "/user/idcheck.wow",
-            type : "POST",
-            dataType : "json",
-            data : {"userId" :currentId},
-            success : function(data){
-                if(data == 1){
-                    alert("중복된 아이디입니다.");
-                    isidDuple = true
-                }else if(data == 0){
-                    alert("사용가능한 아이디입니다.");
-                    isidDuple = true
+        if (currentId != '' && currentId != null) {
+            console.log(currentId)
+            $.ajax({
+                url: "/user/idcheck.wow",
+                type: "POST",
+                dataType: "json",
+                data: {"userId": currentId},
+                success: function (data) {
+                    if (data == 1) {
+                        $("#usernameMessage-F").text("이미 사용 중인 아이디입니다.");
+                        isidDuple = false
+                    } else if (data == 0) {
+                        $("#usernameMessage-S").text("사용 가능한 아이디입니다.");
+                        isidDuple = true
+                    }
                 }
-            }
-        })
-    }
-    function fn_mailChk(){
-        let currentMail = $("input[name='userMail']").val();
-        $.ajax({
-            url : "/user/mailcheck.wow",
-            type : "POST",
-            dataType : "json",
-            data : {"userMail" :currentMail},
-            success : function(data){
-                if(data == 1){
-                    alert("중복된 메일입니다.");
-                    ismailDuple = true
-                }else if(data == 0){
-                    alert("사용가능한 메일입니다.");
-                    ismailDuple = true
-                }
-            }
-        })
+            })
+
+        }
+
     }
 
+    function fn_mailChk() {
+        $("#userMailMessage-S").text("");
+        $("#userMailMessage-F").text("");
+        let currentMail = $("input[name='userMail']").val();
+        $.ajax({
+            url: "/user/mailcheck.wow",
+            type: "POST",
+            dataType: "json",
+            data: {"userMail": currentMail},
+            success: function (data) {
+                if (data == 1) {
+                    $("#userMailMessage-F").text("이미 사용 중인 메일입니다.");
+                    ismailDuple = false
+                } else if (data == 0) {
+                    $("#userMailMessage-S").text("사용 가능한 메일입니다.");
+                    ismailDuple = true
+                }
+            }
+        })
+    }
 
 
     function findAddress() {
         new daum.Postcode({
-            oncomplete: function(data) {
+            oncomplete: function (data) {
                 // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
                 // 각 주소의 노출 규칙에 따라 주소를 조합한다.
@@ -166,11 +186,11 @@
         }).open();
     }
 
-    document.querySelector("#signUp").addEventListener("click" , (e)=>{
+    document.querySelector("#signUp").addEventListener("click", (e) => {
         e.preventDefault()
         // 간단한 클라이언트 측 검증
-        const userId= $("input[name='userId']").val();
-        const email =$("input[name='userMail']").val();
+        const userId = $("input[name='userId']").val();
+        const email = $("input[name='userMail']").val();
         const password = $("input[name='userPass']").val();
         const userName = $("input[name='userName']").val();
 
@@ -181,14 +201,14 @@
         }
 
         // 서버로의 요청을 막고 사용자에게 알림을 보여줌
-        if(isidDuple == true && ismailDuple == true){
-        // 폼에 전송
-        alert("회원가입 성공");
-        document.querySelector("form").submit();
-        }else if(isidDuple == false){
-            alert("아이디 중복체크를 해주세요")
-        }else if(ismailDuple == false){
-            alert("이메일 중복체크를 해주세요")
+        if (isidDuple == true && ismailDuple == true) {
+            // 폼에 전송
+            alert("회원가입 성공");
+            document.querySelector("form").submit();
+        } else if (isidDuple == false) {
+            alert("아이디를 확인 해주세요")
+        } else if (ismailDuple == false) {
+            alert("이메일을 확인해 주세요")
         }
     })
 

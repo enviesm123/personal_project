@@ -40,7 +40,7 @@
         SET
             USER_PASS=#{userPass}, USER_NAME=#{userName}, USER_ZIP=#{userZip},
             USER_ADD1=#{userAdd1}, USER_ADD2=#{userAdd2}, USER_HP=#{userHp},
-            USER_MAIL=#{userMail}, USER_DEL_YN='N', USER_GRANT=#{userGrant}
+            USER_MAIL=#{userMail}, USER_DEL_YN= 'N', USER_GRANT=#{userGrant}
 
         WHERE USER_ID=#{userId}
     </update>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.study.board.dao.IReviewBoardDao">
+<mapper namespace="com.study.board.dao.review.IReviewBoardDao">
 
 
     <select id="getTotalRowCount" resultType="java.lang.Integer">
@@ -17,18 +17,16 @@
     <select id="getBoardList" resultType="com.study.board.vo.ReviewBoardVO">
         SELECT * FROM (
                           SELECT a.*, rowNum AS rnum from(
-        SELECT RE_BO_NO,            RE_BO_TITLE,         RE_BO_CATEGORY,
+        SELECT RE_BO_NO,            RE_BO_TITLE,
                RE_BO_WRITER,        RE_BO_PASS,          RE_BO_CONTENT,
                RE_BO_RECOMMEND,     RE_BO_HIT,
                to_char(re_bo_reg_date, 'YYYY-MM-DD') AS re_BO_REG_DATE ,
                to_char(re_BO_MOD_DATE, 'YYYY-MM-DD') AS re_BO_MOD_DATE ,
-               RE_BO_DEL_YN,
-               b.type_nm as re_bo_category_nm
+               RE_BO_DEL_YN
         FROM
-                review_Board a , type_code b
+                review_Board
         WHERE	 	1=1
         AND	 re_bo_del_yn = 'N'
-        AND a.re_bo_category = b.type_cd
         <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(search.searchWord)">
             <if test='search.searchType == "T"'>AND re_bo_title LIKE '%' || #{search.searchWord} || '%'</if>
             <if test='search.searchType == "W"'>AND re_bo_writer LIKE '%' || #{search.searchWord} || '%'</if>
@@ -38,7 +36,7 @@
         WHERE rnum BETWEEN  #{paging.firstRow} AND #{paging.lastRow}
     </select>
     <select id="getBoardView" resultType="com.study.board.vo.ReviewBoardVO" parameterType="int">
-        SELECT RE_BO_NO,            RE_BO_TITLE,         RE_BO_CATEGORY,
+        SELECT RE_BO_NO,            RE_BO_TITLE,
                RE_BO_WRITER,        RE_BO_PASS,          RE_BO_CONTENT,
                RE_BO_RECOMMEND,     RE_BO_HIT,
                to_char(re_bo_reg_date, 'YYYY-MM-DD') AS re_BO_REG_DATE ,
@@ -57,10 +55,10 @@
         </selectKey>
         INSERT INTO REVIEW_BOARD
         (
-            RE_BO_NO, RE_BO_TITLE, RE_BO_CATEGORY,
+            RE_BO_NO, RE_BO_TITLE,
             RE_BO_WRITER, RE_BO_PASS, RE_BO_CONTENT
         )VALUES(
-                    #{reBoNo}, #{reBoTitle}, #{reBoCategory},
+                    #{reBoNo}, #{reBoTitle},
                    #{reBoWriter}, #{reBoPass}, #{reBoContent}
                )
     </insert>
@@ -68,7 +66,6 @@
     <update id="modifyBoard" parameterType="com.study.board.vo.ReviewBoardVO">
         UPDATE review_board SET
                               re_bo_title = #{reBoTitle}	 	        ,
-                              re_bo_category = #{reBoCategory}	 	,
                               re_bo_content = #{reBoContent}	 	    ,
                               re_bo_mod_date = sysdate
         WHERE re_bo_no = #{reBoNo}

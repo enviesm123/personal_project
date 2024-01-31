@@ -17,12 +17,23 @@
             margin-bottom: 20px;
         }
 
+        .card div {
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .card-body {
+            padding: 0px;
+        }
+
         .card-body {
             display: flex;
             flex-direction: column;
         }
 
         .card-title {
+            width: 75%;
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
@@ -51,20 +62,72 @@
             margin-top: 10px;
         }
 
+        .row .card-title-list {
+            width: 158px;
+        }
+
+        .container h5 {
+            height: 48px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+        }
+
+        .pagination a {
+            color: #161719;
+            margin-right: 30px;
+        }
+
+        .pagination li.active a {
+            color: #f3a200; /* 텍스트 색상을 원하는 색상으로 지정 */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* 확대 효과 */
+            transition: transform 0.3s ease; /* 부드러운 애니메이션 효과 */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+        }
+
+        .searchBar {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            /*width: 30%;*/
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
+
+        .row-list {
+            width: 730px;
+
+        }
+
     </style>
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
+<header>
+    <h1>Photo & Hiking</h1>
+    <h1>등산후기 게시판</h1>
+</header>
 
 <div class="container mt-5" id="top">
     <form action="/review/reviewModify.wow">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div style="display: flex;  justify-content: space-between;">
+                <div class="card-view">
+                    <div style="display: flex;  justify-content: space-between; margin: 10px; width: 90%">
                         <h5 class="card-title">제목: ${boardView.reBoTitle}</h5>
-                        <span>작성자 ${boardView.reBoWriter} ${boardView.reBoHit}</span>
+                        <span>작성자<strong> ${boardView.reBoWriter}</strong>  조회수  <strong>${boardView.reBoHit}</strong></span>
                     </div>
+                    ${boardView}
                     <div>
                         <c:forEach var="f" items="${boardView.attaches}" varStatus="st">
                             <img alt=""
@@ -80,50 +143,29 @@
                                       disabled>${boardView.reBoContent}</textarea>
                         </div>
                         <!-- 이미지 업로드 폼 -->
-                        <div>
-                            <div>첨부파일</div>
-                            <div>
-                                <c:forEach var="f" items="${boardView.attaches}" varStatus="st">
-                                    <div>
-                                        <span class="glyphicon glyphicon-save"
-                                              aria-hidden="true"></span> ${f.atchOriginalName}
-                                        Size : ${f.atchFancySize}
-                                    </div>
+<%--                        <div>--%>
+<%--                            <div>첨부파일</div>--%>
+<%--                            <div>--%>
+<%--                                <c:forEach var="f" items="${boardView.attaches}" varStatus="st">--%>
+<%--                                    <div>--%>
+<%--                                        <span class="glyphicon glyphicon-save"--%>
+<%--                                              aria-hidden="true"></span> ${f.atchOriginalName}--%>
+<%--                                        Size : ${f.atchFancySize}--%>
+<%--                                    </div>--%>
 
-                                    <img alt=""
-                                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${f.atchFileName}&filePath=${f.atchPath}"
-                                         width="50px" height="50px">
-                                </c:forEach>
-                            </div>
+<%--                                    <img alt=""--%>
+<%--                                         src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${f.atchFileName}&filePath=${f.atchPath}"--%>
+<%--                                         width="50px" height="50px">--%>
+<%--                                </c:forEach>--%>
+<%--                            </div>--%>
 
-                        </div>
-                        <form id="imageUploadForm">
-                            <div class="form-group">
-                                <label for="image">이미지 첨부</label>
-                                <input type="file" class="form-control-file" id="image" name="image">
-                            </div>
-                        </form>
-
-
-                        <%--  댓글 목록 나오는 부분--%>
-
-                        <div id="id_reply_list_area">
-                            <div data-page="1"></div>
-                        </div>
-
-                        <%-- 더보기영역--%>
-                        <div class="row text-center" id="id_reply_list_more">
-                            <a id="btn_reply_list_more"
-                               class="btn btn-sm btn-default col-sm-10 col-sm-offset-1"> <span
-                                    class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-                                더보기
-                            </a>
-                        </div>
-
-                        <div class="btn-move">
-                            <a href="#top" type="button" class="btn btn-warning" id="moveTop">맨위로</a>
-                            <a href="/review/reviewList.wow" type="button" class="btn btn-danger" id="moveList">목록</a>
-                        </div>
+<%--                        </div>--%>
+<%--                        <form id="imageUploadForm">--%>
+<%--                            <div class="form-group">--%>
+<%--                                <label for="image">이미지 첨부</label>--%>
+<%--                                <input type="file" class="form-control-file" id="image" name="image">--%>
+<%--                            </div>--%>
+<%--                        </form>--%>
 
 
                         <!-- 댓글 폼 -->
@@ -140,15 +182,45 @@
                                     <div class="form-group">
                                         <label class="col-sm-2  control-label">댓글</label>
                                         <div class="col-sm-8">
-                                            <textarea rows="3" name="reContent" class="form-control"></textarea>
+                                            <textarea rows="3" style="width: 736px" name="reContent"
+                                                      class="form-control" ${USER_INFO== null ? 'disabled' : ""}></textarea>
                                         </div>
                                         <div class="col-sm-2">
                                             <button id="btn_reply_regist" type="button"
                                                     class="btn btn-sm btn-info">등록
                                             </button>
+                                            <c:if test="${(USER_INFO.userName == boardView.reBoWriter) || USER_INFO.userRole eq 'admin'}">
+                                                <a href="reviewEdit.wow?reBoNo=${boardView.reBoNo}"
+                                                   class="btn btn-success btn-sm"> <span class="glyphicon glyphicon-pencil"
+                                                                                         aria-hidden="true"></span> &nbsp;&nbsp;수정
+                                                </a>
+                                            </c:if>
+                                        </div>
+                                        <div class="btn-container">
+
                                         </div>
                                     </div>
                                 </form>
+
+                                <%--  댓글 목록 나오는 부분--%>
+
+                                <div id="id_reply_list_area">
+                                    <div data-page="1"></div>
+                                </div>
+
+                                <%-- 더보기영역--%>
+                                <div class="row text-center" id="id_reply_list_more" style="background-color: #0b5ed7">
+                                    <a id="btn_reply_list_more" style="width: 100%"
+                                       class="btn btn-sm btn-default col-sm-10 col-sm-offset-1"> <span
+                                            class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                                        더보기
+                                    </a>
+                                </div>
+
+                                <div class="btn-move">
+                                    <a href="#top" type="button" class="btn btn-warning" id="moveTop">맨위로</a>
+                                    <a href="/review/reviewList.wow" type="button" class="btn btn-danger" id="moveList">목록</a>
+                                </div>
 
                                 <!-- START : 댓글 수정용 Modal -->
                                 <div class="modal fade" id="id_reply_edit_modal" role="dialog">
@@ -185,14 +257,7 @@
 
                                 <!-- 댓글 목록 -->
 
-                                <div class="btn-container">
-                                    <c:if test="${(USER_INFO.userName == boardView.reBoWriter) || USER_INFO.userRole eq 'admin'}">
-                                        <a href="reviewEdit.wow?reBoNo=${boardView.reBoNo}"
-                                           class="btn btn-success btn-sm"> <span class="glyphicon glyphicon-pencil"
-                                                                                 aria-hidden="true"></span> &nbsp;&nbsp;수정
-                                        </a>
-                                    </c:if>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -200,6 +265,102 @@
             </div>
         </div>
     </form>
+
+    <div class="container-list" style="display: flex; justify-content: center;">
+        <div class="row-list">
+            <div class="col">
+                <c:if test="${USER_INFO != null}">
+                    <a href="/review/reviewForm.wow" class="btn btn-info">글쓰기</a>
+                </c:if>
+            </div>
+            <div class="row row-cols-4  g-4">
+                <c:forEach items="${reviewList}" var="review">
+                    <div class="col">
+                        <div class="card" style="">
+                            <div class="row">
+                                <div class="col-sm-7" style="width: 125px">
+                                        ${review.reBoWriter}
+                                </div>
+                                <span class="col-sm" style="width: 125px">추천수: ${review.reBoRecommend}</span>
+
+                            </div>
+                            <c:if test="${review.attaches.size() == 0 || review.attaches[0].atchContentType eq 'text/html'}">
+                                <img src="https://cdn.crowdpic.net/detail-thumb/thumb_d_FA2CA58E0A6221B50231CA2E676729C1.jpg"
+                                     class="card-img-top" alt="...">
+                            </c:if>
+                            <c:if test="${review.attaches.size() != 0 }">
+                                <img src="<%=request.getContextPath()%>/attach/showImg.wow?fileName=${review.attaches[0].atchFileName}&filePath=${review.attaches[0].atchPath}"
+                                     class="card-img-top" alt="...">
+                            </c:if>
+                            <div class="card-body">
+                                <h5 class="card-title-list">
+                                    <a href="/review/reviewView.wow?reBoNo=${review.reBoNo}">${review.reBoTitle}
+                                    </a>
+                                </h5>
+                                <p class="card-text">조회수 : ${review.reBoHit} </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </c:forEach>
+
+
+            </div>
+            <div class="searchBar">
+                <form action="reviewList.wow" method="post">
+                    <select id="id_searchType" name="searchType" class="form-control input-sm">
+                        <option value="T" ${search.searchType eq "T" ? "selected = 'selected'" : ""} >제목</option>
+                        <option value="W" ${search.searchType eq "W" ? "selected = 'selected'" : ""}>작성자</option>
+                        <option value="C" ${search.searchType eq "C" ? "selected = 'selected'" : ""}>내용</option>
+                    </select>
+                    <label for="searchKeyword">검색어:</label>
+                    <input type="text" id="searchKeyword" name="searchWord" value="${search.searchWord}"
+                           placeholder="검색어를 입력하세요">
+                    <button type="submit" class="btn btn-outline-success">검색</button>
+                </form>
+            </div>
+            <!-- START : 페이지네이션  -->
+            <nav class="text-center">
+                <ul class="pagination">
+
+                    <!-- 첫 페이지  -->
+                    <li><a href="reviewList.wow?curPage=1" data-page="1"><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+
+
+                    <!-- 이전 페이지 -->
+                    <c:if test="${paging.firstPage >= 10}">
+                        <li><a href="reviewList.wow?curPage=${paging.firstPage-1}"
+                               data-page="${paging.firstPage-1}"><span aria-hidden="true">&lt;</span></a></li>
+                    </c:if>
+
+                    <!-- 페이지 넘버링  -->
+                    <c:forEach begin="${paging.firstPage}" end="${paging.lastPage}" var="page">
+                        <c:if test="${paging.curPage  ne page}">
+                            <li><a href="reviewList.wow?curPage=${page}" data-page="${page}">${page}</a></li>
+                        </c:if>
+                        <c:if test="${paging.curPage eq page}">
+                            <li class="active"><a href="reviewList.wow?curPage=${page}" data-page="${page}">${page}</a>
+                            </li>
+                        </c:if>
+                    </c:forEach>
+
+
+                    <!-- 다음  페이지  -->
+                    <c:if test="${paging.lastPage < paging.totalPageCount}">
+                        <li><a href="reviewList.wow?curPage=${paging.lastPage+1}" data-page="${paging.lastPage+1}"><span
+                                aria-hidden="true">&gt;</span></a></li>
+                    </c:if>
+
+                    <!-- 마지막 페이지 -->
+                    <li><a href="reviewList.wow?curPage=${paging.totalPageCount}"
+                           data-page="${paging.totalPageCount}"><span aria-hidden="true">&raquo;</span></a></li>
+                </ul>
+            </nav>
+            <!-- END : 페이지네이션  -->
+        </div>
+    </div>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

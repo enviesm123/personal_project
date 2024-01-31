@@ -51,7 +51,7 @@ public class LoginController {
         }
         boolean nonInput = (id == null || id.isEmpty()) || (pw == null || pw.isEmpty());
         if (nonInput) {
-            return "redirect:/login/login.wow?msg=" + URLEncoder.encode("아이디를 입력해주세요.", "utf-8");
+            return "redirect:/login/login.wow?msg=" + URLEncoder.encode("아이디 혹은 비밀번호를 입력해주세요.", "utf-8");
         }
 
         // 로그인 성공 했을때 로직

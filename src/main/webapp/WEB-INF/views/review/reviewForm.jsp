@@ -24,10 +24,20 @@
             justify-content: space-evenly;
             margin-top: 10px;
         }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
+<header>
+    <h1>Photo & Hiking</h1>
+    <h1>등산후기 게시판</h1>
+</header>
 <div class="container mt-5">
     <form action="reviewRegist.wow" method="post" enctype="multipart/form-data">
         <div class="row justify-content-center">
@@ -47,12 +57,12 @@
                         <input type="password" name="reBoPass" value="" class="form-control input-sm"
                                required="required" pattern="\w{4,}" title="알파벳과 숫자로 4글자 이상 입력">
                     </div>
-                    <select name="reBoCategory" class="form-control input-sm" required="required">
-                        <option value="bC00">-- 선택하세요--</option>
-                        <option value="BC01">1</option>
-                        <option value="BC02">2</option>
-                        <option value="BC03">3</option>
-                    </select>
+<%--                    <select name="reBoCategory" class="form-control input-sm" required="required">--%>
+<%--                        <option value="bC00">-- 선택하세요--</option>--%>
+<%--                        <option value="BC01">1</option>--%>
+<%--                        <option value="BC02">2</option>--%>
+<%--                        <option value="BC03">3</option>--%>
+<%--                    </select>--%>
                     <img src="https://via.placeholder.com/800x400" class="card-img-top" alt="게시글 이미지">
                     <div class="card-body">
                         <!-- 게시글 정보 -->
@@ -86,7 +96,7 @@
 <script type="text/javascript">
     $('#id_btn_new_file').click(function () {
         $('.file_area').append('<div class="form-inline">'
-            + '<input type="file" name="boFiles" class="form-control">'
+            + '<input type="file" name="boFiles" class="form-control" accept="image/gif, image/jpeg, image/png">'
             + ' <button type="button" class="btn_delete btn btn-sm">삭제</button>' + '</div>');
     });
     $('.file_area').on('click', '.btn_delete', function () {

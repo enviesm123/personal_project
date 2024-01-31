@@ -44,9 +44,9 @@
 
                 <button type="submit" class="btn btn-primary btn-xs" style="width:100%">로그인</button>
 
-                <button type="submit" class="btn btn-danger btn-xs" style="width:100%" href="/user/userForm.wow">
+                <a type="button" class="btn btn-danger btn-xs" style="width:100%" href="/user/userForm.wow">
                     회원가입
-                </button>
+                </a>
             </div>
                 <p style="color: red;">${msg}</p>
         </div>

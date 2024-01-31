@@ -1,17 +1,16 @@
-package com.study.board.service;
+package com.study.board.service.review;
 
-import com.study.board.vo.ReviewBoardSearchVO;
+import com.study.board.vo.BoardSearchVO;
 import com.study.board.vo.ReviewBoardVO;
 import com.study.common.vo.PagingVO;
 import com.study.exception.BizPasswordNotMatchedException;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 public interface IBoardService {
 
-    public List<ReviewBoardVO> getBoardList(PagingVO paging, ReviewBoardSearchVO search);
+    public List<ReviewBoardVO> getBoardList(PagingVO paging, BoardSearchVO search);
 
     public ReviewBoardVO getBoardView(int reBoNo);
 

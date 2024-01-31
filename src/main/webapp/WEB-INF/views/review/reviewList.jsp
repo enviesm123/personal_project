@@ -12,6 +12,10 @@
             color: #0f5132;
         }
 
+        .container h5 {
+            height: 48px;
+        }
+
         .pagination{
             display: flex;
             justify-content: center;
@@ -22,9 +26,7 @@
         }
 
         .pagination li.active a {
-            background-color: #337ab7; /* 배경색을 원하는 색상으로 지정 */
-            color: #fff; /* 텍스트 색상을 원하는 색상으로 지정 */
-            border-color: #337ab7; /* 테두리 색상을 원하는 색상으로 지정 */
+            color: #f3a200; /* 텍스트 색상을 원하는 색상으로 지정 */
         }
 
         .card:hover {
@@ -35,7 +37,14 @@
         .searchBar{
             display: flex;
             justify-content: space-around;
+            margin-top: 20px;
             /*width: 30%;*/
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1em;
+            text-align: center;
         }
 
     </style>
@@ -43,12 +52,13 @@
 <body>
 <%@include file="/WEB-INF/inc/top.jsp" %>
 
-
-${paging}
+<header>
+    <h1>Photo & Hiking</h1>
+    <h1>등산후기 게시판</h1>
+</header>
     <div class="container">
         <div class="row">
             <div class="col">
-                <h1 class="col-sm-6">등산후기 게시판</h1>
                 <c:if test="${USER_INFO != null}">
             <a href="/review/reviewForm.wow" class="btn btn-info">글쓰기</a>
                 </c:if>
@@ -95,7 +105,7 @@ ${paging}
                     </select>
                 <label for="searchKeyword" >검색어:</label>
                 <input type="text" id="searchKeyword"  name="searchWord" value="${search.searchWord}" placeholder="검색어를 입력하세요">
-                <button type="submit">검색</button>
+                <button type="submit" class="btn btn-outline-success">검색</button>
             </form>
             </div>
             <!-- START : 페이지네이션  -->
@@ -139,7 +149,9 @@ ${paging}
 <script>
     // 페이지 로드 시 아래로 스크롤
     window.onload = function() {
-        scrollToBottom();
+        if (window.location.search.indexOf("curPage") !== -1) {
+            scrollToBottom();
+        }
     };
 
     // 스크롤을 제일 아래로 이동하는 함수

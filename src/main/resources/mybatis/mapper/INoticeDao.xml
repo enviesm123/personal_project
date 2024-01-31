@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.study.board.dao.notice.INoticeDao">
+
+
+
+    <select id="getNoticeList" resultType="com.study.board.vo.NoticeBoardVO">
+        SELECT * FROM (
+                          SELECT a.*, rowNum AS rnum FROM (
+        SELECT
+            NO_BO_NO, NO_BO_TITLE,
+            NO_BO_WRITER, NO_BO_CONTENT,
+            NO_BO_RECOMMEND, NO_BO_HIT, NO_BO_REG_DATE,
+            NO_BO_MOD_DATE, NO_BO_DEL_YN
+        FROM   NOTICE_BOARD
+        WHERE NO_BO_DEL_YN = 'N'
+        ORDER BY no_bo_no DESC)a ) b
+        WHERE rnum BETWEEN #{paging.firstRow} AND #{paging.lastRow}
+    </select>
+    <select id="getNotice" resultType="com.study.board.vo.NoticeBoardVO">
+        SELECT
+            NO_BO_NO, NO_BO_TITLE,
+            NO_BO_WRITER, NO_BO_CONTENT,
+            NO_BO_RECOMMEND, NO_BO_HIT, NO_BO_REG_DATE,
+            NO_BO_MOD_DATE, NO_BO_DEL_YN
+        FROM   NOTICE_BOARD
+        WHERE NO_BO_DEL_YN = 'N'
+        AND no_bo_no = #{noBoNo}
+    </select>
+    <select id="getTotalRowCount" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM notice_board
+        WHERE no_bo_del_yn ='N'
+    </select>
+    <update id="modifyNotice" parameterType="com.study.board.vo.NoticeBoardVO">
+        UPDATE NOTICE_BOARD
+        SET 	NO_BO_TITLE= #{noBoTitle},
+               NO_BO_WRITER=#{noBoWriter},
+               NO_BO_CONTENT=#{noBoContent},
+               NO_BO_MOD_DATE= SYSDATE
+        WHERE 	NO_BO_NO= #{noBoNo}
+    </update>
+    <insert id="registNotice" parameterType="com.study.board.vo.NoticeBoardVO">
+        INSERT INTO NOTICE_BOARD
+                    (
+                            NO_BO_NO, NO_BO_TITLE,
+                            NO_BO_WRITER, NO_BO_CONTENT,
+                            NO_BO_REG_DATE,
+                            NO_BO_MOD_DATE, NO_BO_DEL_YN
+                    )
+        VALUES		(
+                          seq_notice_board.nextval, #{noBoTitle},
+                          #{noBoWriter},  #{noBoContent},
+                          SYSDATE,
+                          null, 'N'
+                      )
+    </insert>
+    <delete id="deleteNotice">
+        UPDATE NOTICE_BOARD
+        SET    NO_BO_DEL_YN='Y'
+        WHERE NO_BO_NO = #{noBoNo}
+    </delete>
+</mapper>

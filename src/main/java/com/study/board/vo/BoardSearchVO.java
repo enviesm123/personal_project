@@ -3,7 +3,7 @@ package com.study.board.vo;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-public class ReviewBoardSearchVO {
+public class BoardSearchVO {
     private String searchType;
     private String searchWord;
     private String searchCategory;

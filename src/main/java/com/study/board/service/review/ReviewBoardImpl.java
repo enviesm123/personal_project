@@ -1,9 +1,9 @@
-package com.study.board.service;
+package com.study.board.service.review;
 
 import com.study.attach.dao.IAttachDao;
 import com.study.attach.vo.AttachVO;
-import com.study.board.dao.IReviewBoardDao;
-import com.study.board.vo.ReviewBoardSearchVO;
+import com.study.board.dao.review.IReviewBoardDao;
+import com.study.board.vo.BoardSearchVO;
 import com.study.board.vo.ReviewBoardVO;
 import com.study.common.vo.PagingVO;
 import com.study.exception.BizPasswordNotMatchedException;
@@ -23,7 +23,7 @@ public class ReviewBoardImpl implements IBoardService{
 
 
     @Override
-    public List<ReviewBoardVO> getBoardList(PagingVO paging, ReviewBoardSearchVO search) {
+    public List<ReviewBoardVO> getBoardList(PagingVO paging, BoardSearchVO search) {
 
         int totalRowCount = reviewBoardDao.getTotalRowCount(paging, search);
         paging.setTotalRowCount(totalRowCount);   //pagingCount로 세팅하면 콱

@@ -29,7 +29,7 @@
             <th scope="col">주소</th>
             <th scope="col">회원 등급</th>
             <th scope="col">활성화 여부</th>
-            <th scope="col">수정/삭제</th>
+<%--            <th scope="col">수정/삭제</th>--%>
         </tr>
         </thead>
         <tbody>
@@ -45,8 +45,8 @@
             <td>${user.userDelYn}</td>
 <%--            <td><img src="profile1.jpg" alt="프로필 사진" width="50"></td>--%>
             <td>
-                <button type="button" class="btn btn-primary btn-sm">수정</button>
-                <button type="button" class="btn btn-danger btn-sm">삭제</button>
+<%--                <button type="button" class="btn btn-primary btn-sm">수정</button>--%>
+<%--                <button type="button" class="btn btn-danger btn-sm">삭제</button>--%>
             </td>
         </tr>
             </c:forEach>
